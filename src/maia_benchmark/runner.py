@@ -7,10 +7,9 @@ from pathlib import Path
 
 import chess
 import chess.engine
-import chess.pgn
 import chess.polyglot
 
-from .books import choose_move, matchup_book_rating, validate_book
+from .books import choose_move, matchup_book_rating
 from .config import Experiment, Profile
 from .openings import Opening
 from .schedule import Matchup
@@ -56,8 +55,6 @@ def run_matchup(
             completed = {json.loads(line)["game_id"] for line in handle if line.strip()}
 
     a_book, b_book = _book_paths(exp, matchup.a, matchup.b)
-    for path in {a_book, b_book} - {None}:
-        validate_book(path)  # fail before engine startup
     readers = {
         path: chess.polyglot.open_reader(path) for path in {a_book, b_book} - {None}
     }
@@ -109,9 +106,7 @@ def _play_game(
     board = chess.Board(opening.fen)
     rng = random.Random(f"{exp.seed}:{game_id}")
     book_active = {chess.WHITE: white_book is not None, chess.BLACK: black_book is not None}
-    source_counts = {"white_book": 0, "white_engine": 0, "black_book": 0, "black_engine": 0}
-    transitions = {"white": None, "black": None}
-    moves: list[dict] = []
+    plies = 0
     termination = None
     for _ in range(exp.max_plies):
         if board.is_game_over(claim_draw=True):
@@ -120,24 +115,18 @@ def _play_game(
         profile = white_profile if color == chess.WHITE else black_profile
         engine = white_engine if color == chess.WHITE else black_engine
         book_path = white_book if color == chess.WHITE else black_book
-        label = "white" if color == chess.WHITE else "black"
         move = None
-        source = "engine"
         if book_active[color] and book_path is not None:
             move = choose_move(readers[book_path], board, rng)
             if move is None:
                 book_active[color] = False
-                transitions[label] = board.ply()
-            else:
-                source = "book"
         if move is None:
             result = engine.play(board, chess.engine.Limit(nodes=1), game=game_id)
             move = result.move
         if move not in board.legal_moves:
             raise RuntimeError(f"Illegal move {move} from {profile.id} in {game_id}")
-        source_counts[f"{label}_{source}"] += 1
-        moves.append({"ply": board.ply() + 1, "uci": move.uci(), "source": source})
         board.push(move)
+        plies += 1
     else:
         termination = "max_plies"
 
@@ -146,19 +135,12 @@ def _play_game(
     if termination is None:
         termination = outcome.termination.name.lower() if outcome else "unknown"
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "game_id": game_id,
         "opening_id": opening.id,
-        "start_fen": opening.fen,
         "white": white_profile.id,
         "black": black_profile.id,
-        "white_book": white_book.name if white_book else None,
-        "black_book": black_book.name if black_book else None,
         "result": result,
         "termination": termination,
-        "plies": len(moves),
-        "transitions": transitions,
-        "source_counts": source_counts,
-        "moves": moves,
+        "plies": plies,
     }
-

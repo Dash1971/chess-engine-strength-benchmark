@@ -25,10 +25,9 @@ percentage with 95% confidence intervals.
 
 ### Opening controls
 
-The runner—not the UCI wrappers—owns book selection. It validates every
-Polyglot file before starting an engine, records whether every move came from
-the book or model, and permanently switches a side to its model after its first
-book miss.
+The runner—not the UCI wrappers—owns book selection and permanently switches a
+side to its model after its first book miss. Full book validation is available
+through the explicit `validate` command and is not repeated for every matchup.
 
 - If both profiles are book-enabled, both use the higher Elo profile's Rapid
   book (1100 vs 1900 therefore uses the 1900 book for both).
@@ -82,11 +81,10 @@ concurrency on the target machine.
 ## Outputs
 
 - one append-only JSONL file per matchup, resumable by game ID
-- per-ply source provenance (`book` or `engine`)
-- exact book-to-model transition ply for each side
+- compact per-game records: profiles, opening ID, result, termination, and plies
 - result and termination reason, including explicit maximum-ply cases
+- unresolved or maximum-ply records reported separately and excluded from W/D/L denominators
 - aggregate CSV with both simple Wilson and opening-pair-clustered intervals
-- annotated PGN reconstructed from the lossless JSONL records
 - Markdown report
 
 The manifest seed makes opening selection and book sampling reproducible. Maia

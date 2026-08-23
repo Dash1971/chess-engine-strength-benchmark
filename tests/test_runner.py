@@ -13,7 +13,7 @@ class FirstLegalEngine:
         return SimpleNamespace(move=next(iter(board.legal_moves)))
 
 
-def test_game_records_engine_provenance_without_books(tmp_path: Path):
+def test_game_records_compact_result_without_per_move_data(tmp_path: Path):
     exp = Experiment(
         tmp_path / "config.toml",
         {"seed": 7, "max_plies": 4},
@@ -34,10 +34,6 @@ def test_game_records_engine_provenance_without_books(tmp_path: Path):
     )
     assert row["termination"] == "max_plies"
     assert row["plies"] == 4
-    assert [move["source"] for move in row["moves"]] == ["engine"] * 4
-    assert row["source_counts"] == {
-        "white_book": 0,
-        "white_engine": 2,
-        "black_book": 0,
-        "black_engine": 2,
-    }
+    assert "moves" not in row
+    assert "source_counts" not in row
+    assert "transitions" not in row
