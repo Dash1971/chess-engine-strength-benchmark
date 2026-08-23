@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maia-engine-strength-benchmark"
-version = "0.1.0"
-description = "Reproducible round-robin strength benchmark for Maia 2 and Maia 3"
+version = "0.2.0"
+description = "Simple color-balanced match runner for installed UCI chess engines"
 requires-python = ">=3.9"
 dependencies = [
   "chess==1.11.2",
