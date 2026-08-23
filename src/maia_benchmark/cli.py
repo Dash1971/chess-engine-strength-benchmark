@@ -8,8 +8,8 @@ from pathlib import Path
 
 from .books import validate_book
 from .config import load_experiment, profiles
-from .openings import generate_openings, load_openings
 from .manifest import write_manifest
+from .openings import generate_openings, load_openings
 from .report import build_report
 from .runner import run_matchup, validate_engine
 from .schedule import matchups
@@ -131,7 +131,7 @@ def _run_many(exp, selected, openings, results, workers, record_moves) -> list[s
         for matchup in selected:
             try:
                 print(run_matchup(exp, matchup, openings, results, record_moves))
-            except Exception as error:
+            except Exception as error:  # noqa: BLE001 - isolate a failed matchup
                 failures.append(matchup.id)
                 print(f"FAILED {matchup.id}: {type(error).__name__}: {error}")
         return failures
@@ -144,7 +144,7 @@ def _run_many(exp, selected, openings, results, workers, record_moves) -> list[s
             matchup = futures[future]
             try:
                 print(future.result())
-            except Exception as error:
+            except Exception as error:  # noqa: BLE001 - isolate a failed worker
                 failures.append(matchup.id)
                 print(f"FAILED {matchup.id}: {type(error).__name__}: {error}")
     return failures

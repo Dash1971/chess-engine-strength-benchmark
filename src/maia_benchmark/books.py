@@ -49,8 +49,3 @@ def choose_move(reader: chess.polyglot.MemoryMappedReader, board: chess.Board, r
     if not any(weights):
         return rng.choice(entries).move
     return rng.choices([entry.move for entry in entries], weights=weights, k=1)[0]
-
-
-def matchup_book_rating(a_rating: int, b_rating: int) -> int:
-    """Both booked engines use the higher Elo book."""
-    return max(a_rating, b_rating)

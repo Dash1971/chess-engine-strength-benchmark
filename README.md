@@ -33,9 +33,8 @@ The runner—not the UCI wrappers—owns book selection and permanently switches
 side to its model after its first book miss. Full book validation is available
 through the explicit `validate` command and is not repeated for every matchup.
 
-- If both profiles are book-enabled, both use the higher Elo profile's Rapid
-  book (1100 vs 1900 therefore uses the 1900 book for both).
-- If only one profile is book-enabled, it uses its own rating book.
+- Every book-enabled profile uses the Rapid book matching its own rating.
+- A no-book Maia 3 profile uses no opening book.
 - No-book profiles never consult a Polyglot book after the common starting FEN.
 
 A seeded, stratified suite of opening positions is required because deterministic

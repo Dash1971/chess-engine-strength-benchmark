@@ -12,7 +12,7 @@ import chess
 import chess.engine
 import chess.polyglot
 
-from .books import choose_move, matchup_book_rating
+from .books import choose_move
 from .config import Experiment, Profile
 from .openings import Opening
 from .schedule import Matchup
@@ -62,8 +62,6 @@ def _configure(engine: chess.engine.SimpleEngine, profile: Profile) -> None:
             "OppoElo": profile.rating,
             "Temperature": profile.sampling.temperature,
             "TopP": profile.sampling.top_p,
-            "HumanTime": False,
-            "BookFile": "",
         }
     configured = {_option_name(engine, name): value for name, value in requested.items()}
     threads = [name for name in engine.options if name.lower() == "threads"]
@@ -73,11 +71,10 @@ def _configure(engine: chess.engine.SimpleEngine, profile: Profile) -> None:
 
 
 def _book_paths(exp: Experiment, a: Profile, b: Profile) -> tuple[Path | None, Path | None]:
-    if a.book_enabled and b.book_enabled:
-        shared = exp.book_path(matchup_book_rating(a.rating, b.rating))
-        return shared, shared
-    return (exp.book_path(a.rating) if a.book_enabled else None,
-            exp.book_path(b.rating) if b.book_enabled else None)
+    return (
+        exp.book_path(a.rating) if a.book_enabled else None,
+        exp.book_path(b.rating) if b.book_enabled else None,
+    )
 
 
 def run_matchup(
