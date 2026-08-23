@@ -1,0 +1,35 @@
+schema_version = 1
+ratings = [1100, 1600, 1900]
+games_per_matchup = 1000
+opening_pairs = 500
+max_plies = 300
+seed = 20260823
+
+[sampling.argmax]
+temperature = 0.0
+top_p = 1.0
+
+[sampling.balanced]
+temperature = 0.5
+top_p = 0.9
+
+[sampling.max_random]
+temperature = 1.0
+top_p = 1.0
+
+[engines.maia2]
+command_env = "MAIA2_ENGINE"
+
+[engines.maia3]
+command_env = "MAIA3_ENGINE"
+model = "maia3-79m"
+
+[books]
+directory_env = "MAIA_BOOK_DIR"
+filename_template = "lichess_{rating}_rapid_2026-05.bin"
+
+[openings]
+min_plies = 8
+max_plies = 16
+ratings = [1100, 1600, 1900]
+
