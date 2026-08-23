@@ -43,7 +43,6 @@ own opening book. Engine A plays 50 games as White and 50 as Black.
   --engine-b-path ~/chess/maia2-engine/maia2-engine.sh \
   --engine-b-name "Maia2 1900" \
   --engine-b-elo 1900 \
-  --no-engine-b-human-time \
   --engine-b-book ~/chess/books/Rapid/2026/lichess_1900_rapid_2026-05.bin \
   --number-of-games 100 \
   --output maia3-1600-vs-maia2-1900.pgn
@@ -63,7 +62,6 @@ Every engine option has an A and B version:
 - `--engine-a-temperature` / `--engine-b-temperature` — Maia 3 Temperature
 - `--engine-a-top-p` / `--engine-b-top-p` — Maia 3 TopP
 - `--engine-a-book` / `--engine-b-book` — optional Polyglot book
-- `--engine-a-human-time` / `--no-engine-a-human-time` — optional HumanTime
 
 Only specify options supported by the selected engine. Option names are matched
 case-insensitively, so `ELO` and `Elo` are both handled.

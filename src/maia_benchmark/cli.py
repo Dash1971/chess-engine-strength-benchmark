@@ -33,11 +33,6 @@ def _engine_arguments(p: argparse.ArgumentParser, side: str, title: str) -> None
     group.add_argument(f"{prefix}temperature", type=float)
     group.add_argument(f"{prefix}top-p", type=float)
     group.add_argument(f"{prefix}book", type=Path)
-    group.add_argument(
-        f"{prefix}human-time",
-        action=argparse.BooleanOptionalAction,
-        default=None,
-    )
 
 
 def _engine_config(args: argparse.Namespace, side: str) -> EngineConfig:
@@ -50,7 +45,6 @@ def _engine_config(args: argparse.Namespace, side: str) -> EngineConfig:
         opponent_elo=getattr(args, f"{key}opponent_elo"),
         temperature=getattr(args, f"{key}temperature"),
         top_p=getattr(args, f"{key}top_p"),
-        human_time=getattr(args, f"{key}human_time"),
         book=(
             getattr(args, f"{key}book").expanduser().resolve()
             if getattr(args, f"{key}book") is not None

@@ -20,7 +20,6 @@ class EngineConfig:
     opponent_elo: int | None = None
     temperature: float | None = None
     top_p: float | None = None
-    human_time: bool | None = None
     book: Path | None = None
 
 
@@ -141,7 +140,6 @@ class MatchRunner:
             "OppoElo": config.opponent_elo,
             "Temperature": config.temperature,
             "TopP": config.top_p,
-            "HumanTime": config.human_time,
         }
         options = {
             self._option_name(engine, name): value
