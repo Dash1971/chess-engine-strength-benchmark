@@ -8,12 +8,12 @@ version = "0.1.0"
 description = "Reproducible round-robin strength benchmark for Maia 2 and Maia 3"
 requires-python = ">=3.9"
 dependencies = [
-  "python-chess==1.999",
+  "chess==1.11.2",
   "tomli>=2.0; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
-test = ["pytest>=8.0", "ruff>=0.6"]
+test = ["pytest==8.4.2", "ruff==0.12.12"]
 
 [project.scripts]
 maia-benchmark = "maia_benchmark.cli:main"

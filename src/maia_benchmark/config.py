@@ -85,7 +85,7 @@ def load_experiment(path: str | Path) -> Experiment:
 
 
 def validate_config(exp: Experiment) -> None:
-    if exp.raw.get("schema_version") != 1:
+    if exp.raw.get("config_schema") != 1:
         raise ValueError("Unsupported experiment schema")
     if exp.games_per_matchup != exp.opening_pairs * 2:
         raise ValueError("games_per_matchup must equal opening_pairs * 2 for color reversal")

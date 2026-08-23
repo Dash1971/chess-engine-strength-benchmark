@@ -23,6 +23,10 @@ Each matchup uses 500 opening positions, played twice with colors reversed, for
 1,000 games and 210,000 games overall. The primary output is W/D/L and score
 percentage with 95% confidence intervals.
 
+Maia 2 is intentionally book-only. Maia 2 versus Maia 3 claims are therefore
+restricted to book-enabled configurations; Maia 3's book effect is a separate
+within-family comparison. See [`docs/ANALYSIS_PLAN.md`](docs/ANALYSIS_PLAN.md).
+
 ### Opening controls
 
 The runner—not the UCI wrappers—owns book selection and permanently switches a
@@ -46,6 +50,7 @@ Python 3.9 or newer is required.
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -e '.[test]'
+# `requirements.lock` records the exact reviewed environment for reproduction.
 ```
 
 Set paths through environment variables; machine-local absolute paths are not
@@ -64,10 +69,14 @@ maia-benchmark validate
 maia-benchmark build-openings
 maia-benchmark schedule
 
+# Required measured pilot: compact and UCI-move records at each worker count.
+maia-benchmark pilot --pairs 10 --worker-counts 1 2 4
+
 # Smoke test one named matchup first. The run is resumable by game ID.
 maia-benchmark run --matchup maia2-1100-book__vs__maia2-1600-book
 
 maia-benchmark run --workers 4
+# Add --record-moves only if the pilot shows acceptable overhead.
 maia-benchmark report
 ```
 
@@ -81,11 +90,22 @@ concurrency on the target machine.
 ## Outputs
 
 - one append-only JSONL file per matchup, resumable by game ID
-- compact per-game records: profiles, opening ID, result, termination, and plies
-- result and termination reason, including explicit maximum-ply cases
-- unresolved or maximum-ply records reported separately and excluded from W/D/L denominators
-- aggregate CSV with both simple Wilson and opening-pair-clustered intervals
+- compact per-game records: profiles, opening ID, result, termination, plies,
+  elapsed time, and each side's book-exit ply
+- optional UCI move lists, selected only after the measured pilot; PGN can be
+  generated offline rather than in the game loop
+- maximum-ply games scored as draws, plus a cutoff-excluded sensitivity score
+- genuine unresolved failures reported separately and excluded from W/D/L
+- aggregate CSV with approximate Wilson, termination histogram, sensitivity,
+  and primary opening-pair-clustered intervals
 - Markdown report
+
+Before a run, `validate` launches each engine, checks every configured UCI
+option, sets one thread when supported, and obtains a legal probe move. A run
+writes a manifest containing configuration/opening/book/engine hashes, engine
+identity, dependency versions, platform details, and the Git commit. Resume
+repairs a truncated final JSONL line. Engine failures receive one logged retry;
+a repeatedly failing matchup stops without terminating unrelated workers.
 
 The manifest seed makes opening selection and book sampling reproducible. Maia
 3's sampled policies are byte-for-byte reproducible only if the upstream UCI

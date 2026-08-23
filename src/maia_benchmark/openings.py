@@ -46,9 +46,10 @@ def generate_openings(exp: Experiment, output: Path) -> list[Opening]:
                     break
                 moves.append(move.uci())
                 board.push(move)
-            if len(moves) < min_plies or board.is_game_over() or board.fen() in seen:
+            position_key = chess.polyglot.zobrist_hash(board)
+            if len(moves) < min_plies or board.is_game_over() or position_key in seen:
                 continue
-            seen.add(board.fen())
+            seen.add(position_key)
             openings.append(
                 Opening(len(openings), board.fen(), rating, infos[rating].sha256, tuple(moves))
             )
@@ -70,4 +71,3 @@ def load_openings(path: Path) -> list[Opening]:
             row["prefix_uci"] = tuple(row["prefix_uci"])
             result.append(Opening(**row))
     return result
-
