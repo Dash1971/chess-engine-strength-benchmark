@@ -1,0 +1,7 @@
+engine_a,engine_b,a_wins,draws,a_losses,a_score_pct,score_95_ci_low_pct,score_95_ci_high_pct,elo_difference,elo_95_ci_low,elo_95_ci_high,a_as_white_score_pct,a_as_black_score_pct,elapsed_seconds,games_per_hour,pgn
+Maia2 1600 + book,Maia3 1600 argmax + book,31,23,46,42.5,34.0,51.0,-53,-115,7,45.0,40.0,1746.8,206.1,data/maia2-book__vs__maia3-argmax-book.pgn
+Maia2 1600 + book,Maia3 1600 balanced + book,24,27,49,37.5,29.5,45.5,-89,-151,-31,39.0,36.0,1717.2,209.6,data/maia2-book__vs__maia3-balanced-book.pgn
+Maia2 1600 + book,"Maia3 1600 balanced, no book",30,23,47,41.5,33.0,50.0,-60,-123,0,50.0,33.0,1784.4,201.7,data/maia2-book__vs__maia3-balanced-no-book.pgn
+Maia3 1600 balanced + book,Maia3 1600 argmax + book,35,21,44,45.5,37.0,54.5,-31,-92,31,51.0,40.0,3447.4,104.4,data/maia3-balanced-book__vs__maia3-argmax-book.pgn
+Maia3 1600 balanced + book,"Maia3 1600 balanced, no book",31,20,49,41.0,32.5,49.5,-63,-127,-3,50.0,32.0,3626.5,99.3,data/maia3-balanced-book__vs__maia3-balanced-no-book.pgn
+"Maia3 1600 balanced, no book",Maia3 1600 argmax + book,33,22,45,44.0,35.5,52.5,-42,-104,17,49.0,39.0,3745.0,96.1,data/maia3-balanced-no-book__vs__maia3-argmax-book.pgn

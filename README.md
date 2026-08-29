@@ -77,6 +77,13 @@ Match options:
 
 Run `maia-benchmark --help` for the complete CLI reference.
 
+## Published benchmark report
+
+See the [Maia 1600 engine-profile benchmark](reports/20260829_v0_maia_1600_benchmark/README.md)
+for a worked example using this tool: four profiles, six matchups, 600 games,
+methodology, statistical analysis, performance observations, and the complete
+PGN and game-level dataset.
+
 ## Output
 
 During the match:

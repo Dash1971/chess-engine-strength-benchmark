@@ -1,0 +1,170 @@
+{
+  "games": 600,
+  "matchups": [
+    {
+      "engine_a": "Maia2 1600 + book",
+      "engine_b": "Maia3 1600 argmax + book",
+      "a_wins": 31,
+      "draws": 23,
+      "a_losses": 46,
+      "a_score_pct": "42.5",
+      "score_95_ci_low_pct": "34.0",
+      "score_95_ci_high_pct": "51.0",
+      "elo_difference": "-53",
+      "elo_95_ci_low": "-115",
+      "elo_95_ci_high": "7",
+      "a_as_white_score_pct": "45.0",
+      "a_as_black_score_pct": "40.0",
+      "elapsed_seconds": "1746.8",
+      "games_per_hour": "206.1",
+      "pgn": "data/maia2-book__vs__maia3-argmax-book.pgn"
+    },
+    {
+      "engine_a": "Maia2 1600 + book",
+      "engine_b": "Maia3 1600 balanced + book",
+      "a_wins": 24,
+      "draws": 27,
+      "a_losses": 49,
+      "a_score_pct": "37.5",
+      "score_95_ci_low_pct": "29.5",
+      "score_95_ci_high_pct": "45.5",
+      "elo_difference": "-89",
+      "elo_95_ci_low": "-151",
+      "elo_95_ci_high": "-31",
+      "a_as_white_score_pct": "39.0",
+      "a_as_black_score_pct": "36.0",
+      "elapsed_seconds": "1717.2",
+      "games_per_hour": "209.6",
+      "pgn": "data/maia2-book__vs__maia3-balanced-book.pgn"
+    },
+    {
+      "engine_a": "Maia2 1600 + book",
+      "engine_b": "Maia3 1600 balanced, no book",
+      "a_wins": 30,
+      "draws": 23,
+      "a_losses": 47,
+      "a_score_pct": "41.5",
+      "score_95_ci_low_pct": "33.0",
+      "score_95_ci_high_pct": "50.0",
+      "elo_difference": "-60",
+      "elo_95_ci_low": "-123",
+      "elo_95_ci_high": "0",
+      "a_as_white_score_pct": "50.0",
+      "a_as_black_score_pct": "33.0",
+      "elapsed_seconds": "1784.4",
+      "games_per_hour": "201.7",
+      "pgn": "data/maia2-book__vs__maia3-balanced-no-book.pgn"
+    },
+    {
+      "engine_a": "Maia3 1600 balanced + book",
+      "engine_b": "Maia3 1600 argmax + book",
+      "a_wins": 35,
+      "draws": 21,
+      "a_losses": 44,
+      "a_score_pct": "45.5",
+      "score_95_ci_low_pct": "37.0",
+      "score_95_ci_high_pct": "54.5",
+      "elo_difference": "-31",
+      "elo_95_ci_low": "-92",
+      "elo_95_ci_high": "31",
+      "a_as_white_score_pct": "51.0",
+      "a_as_black_score_pct": "40.0",
+      "elapsed_seconds": "3447.4",
+      "games_per_hour": "104.4",
+      "pgn": "data/maia3-balanced-book__vs__maia3-argmax-book.pgn"
+    },
+    {
+      "engine_a": "Maia3 1600 balanced + book",
+      "engine_b": "Maia3 1600 balanced, no book",
+      "a_wins": 31,
+      "draws": 20,
+      "a_losses": 49,
+      "a_score_pct": "41.0",
+      "score_95_ci_low_pct": "32.5",
+      "score_95_ci_high_pct": "49.5",
+      "elo_difference": "-63",
+      "elo_95_ci_low": "-127",
+      "elo_95_ci_high": "-3",
+      "a_as_white_score_pct": "50.0",
+      "a_as_black_score_pct": "32.0",
+      "elapsed_seconds": "3626.5",
+      "games_per_hour": "99.3",
+      "pgn": "data/maia3-balanced-book__vs__maia3-balanced-no-book.pgn"
+    },
+    {
+      "engine_a": "Maia3 1600 balanced, no book",
+      "engine_b": "Maia3 1600 argmax + book",
+      "a_wins": 33,
+      "draws": 22,
+      "a_losses": 45,
+      "a_score_pct": "44.0",
+      "score_95_ci_low_pct": "35.5",
+      "score_95_ci_high_pct": "52.5",
+      "elo_difference": "-42",
+      "elo_95_ci_low": "-104",
+      "elo_95_ci_high": "17",
+      "a_as_white_score_pct": "49.0",
+      "a_as_black_score_pct": "39.0",
+      "elapsed_seconds": "3745.0",
+      "games_per_hour": "96.1",
+      "pgn": "data/maia3-balanced-no-book__vs__maia3-argmax-book.pgn"
+    }
+  ],
+  "standings": [
+    {
+      "profile": "Maia3 1600 argmax + book",
+      "games": 300,
+      "wins": 135,
+      "draws": 66,
+      "losses": 99,
+      "score_pct": "56.0"
+    },
+    {
+      "profile": "Maia3 1600 balanced, no book",
+      "games": 300,
+      "wins": 129,
+      "draws": 65,
+      "losses": 106,
+      "score_pct": "53.8"
+    },
+    {
+      "profile": "Maia3 1600 balanced + book",
+      "games": 300,
+      "wins": 115,
+      "draws": 68,
+      "losses": 117,
+      "score_pct": "49.7"
+    },
+    {
+      "profile": "Maia2 1600 + book",
+      "games": 300,
+      "wins": 85,
+      "draws": 73,
+      "losses": 142,
+      "score_pct": "40.5"
+    }
+  ],
+  "terminations": [
+    {
+      "termination": "checkmate",
+      "games": 464,
+      "pct": "77.3"
+    },
+    {
+      "termination": "threefold repetition",
+      "games": 113,
+      "pct": "18.8"
+    },
+    {
+      "termination": "stalemate",
+      "games": 14,
+      "pct": "2.3"
+    },
+    {
+      "termination": "insufficient material",
+      "games": 9,
+      "pct": "1.5"
+    }
+  ],
+  "total_elapsed_seconds": 16067.3
+}
