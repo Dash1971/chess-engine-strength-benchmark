@@ -79,10 +79,11 @@ Run `maia-benchmark --help` for the complete CLI reference.
 
 ## Published benchmark report
 
-See the [Maia 1600 engine-profile benchmark](reports/20260829_v0_maia_1600_benchmark/README.md)
-for a worked example using this tool: four profiles, six matchups, 600 games,
+See the [expanded Maia 1600 engine-profile benchmark](reports/20260829_v1_maia_1600_benchmark/README.md)
+for a worked example using this tool: five profiles, ten matchups, 1,000 games,
 methodology, statistical analysis, performance observations, and the complete
-PGN and game-level dataset.
+PGN and game-level dataset. The original
+[600-game report](reports/20260829_v0_maia_1600_benchmark/README.md) is preserved.
 
 ## Output
 

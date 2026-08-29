@@ -1,0 +1,6 @@
+profile,games,wins,draws,losses,score_pct
+Maia3 1600 argmax + book,400,180,87,133,55.9
+"Maia3 1600 balanced, no book",400,174,82,144,53.8
+"Maia3 1600 argmax, no book",400,164,88,148,52.0
+Maia3 1600 balanced + book,400,152,94,154,49.8
+Maia2 1600 + book,400,106,97,197,38.6
