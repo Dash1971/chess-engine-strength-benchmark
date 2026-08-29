@@ -17,6 +17,7 @@ test = ["pytest==8.4.2", "ruff==0.12.12"]
 
 [project.scripts]
 maia-benchmark = "maia_benchmark.cli:main"
+maia-benchmark-gui = "maia_benchmark.gui:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

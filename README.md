@@ -28,6 +28,29 @@ python3 -m venv .venv
 .venv/bin/pip install -e .
 ```
 
+## Graphical interface
+
+Run the optional desktop interface with:
+
+```bash
+.venv/bin/maia-benchmark-gui
+```
+
+The GUI provides the same engine and match settings as the command line, file
+pickers for launchers, books, opening suites, and output, plus live match output,
+stop, resume, and a button to reveal the resulting PGN. It invokes the regular
+`maia-benchmark` implementation, so GUI and command-line matches use the same
+validation, pairing, checkpointing, and output format.
+
+Tkinter is included with standard Python installers on macOS. Some minimal
+Linux installations package it separately; on Debian and Ubuntu it can be
+installed with `sudo apt install python3-tk`. A graphical desktop session is
+required. The command-line interface remains available on headless machines.
+
+Stopping terminates the running match process. Completed games have already
+been flushed to the PGN; select the same opening suite and output, check
+**Resume interrupted paired match**, and start again to continue safely.
+
 ## Example
 
 This runs 100 games between Maia 3 1600 and Maia 2 1900. Each engine uses its
