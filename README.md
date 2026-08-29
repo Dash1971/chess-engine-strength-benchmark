@@ -194,6 +194,11 @@ methodology, statistical analysis, performance observations, and the complete
 PGN and game-level dataset. The original
 [600-game report](reports/20260829_v0_maia_1600_benchmark/README.md) is preserved.
 
+The frozen methodology for the next study is available as the
+[Maia 2 and Maia 3 relative-strength preregistration](docs/maia-relative-strength-preregistration.md),
+including its shared 100-opening suite, match schedule, exclusion rules, and
+statistical analysis plan.
+
 ## Output
 
 During the match:
