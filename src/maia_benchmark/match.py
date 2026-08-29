@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import hashlib
+import json
+import os
 import random
 import time
 from dataclasses import dataclass
@@ -33,6 +36,14 @@ class MatchConfig:
     move_time_ms: int | None = None
     max_plies: int = 300
     seed: int | None = None
+    openings: Path | None = None
+    resume: bool = False
+
+
+@dataclass(frozen=True)
+class Opening:
+    initial_fen: str
+    moves: tuple[chess.Move, ...]
 
 
 @dataclass(frozen=True)
@@ -63,22 +74,44 @@ class MatchRunner:
 
     def run(self) -> MatchSummary:
         self._validate()
+        openings = self._load_openings()
+        if openings is not None and self.config.number_of_games != len(openings) * 2:
+            raise ValueError(
+                "--number-of-games must equal twice the number of opening-suite games "
+                f"({len(openings) * 2})"
+            )
+        opening_digest = self._opening_digest()
+        config_hash = self._config_hash(opening_digest)
         self.config.output.parent.mkdir(parents=True, exist_ok=True)
+        completed_games, wins, draws, losses = self._resume_state(openings, config_hash)
+        if completed_games == self.config.number_of_games:
+            return MatchSummary(wins, draws, losses, 0.0, self.config.output)
         readers = self._open_books()
         a_engine: chess.engine.SimpleEngine | None = None
         b_engine: chess.engine.SimpleEngine | None = None
-        wins = draws = losses = 0
         started = time.perf_counter()
         try:
             a_engine = chess.engine.SimpleEngine.popen_uci(str(self.config.engine_a.path))
             b_engine = chess.engine.SimpleEngine.popen_uci(str(self.config.engine_b.path))
             self._configure(a_engine, self.config.engine_a)
             self._configure(b_engine, self.config.engine_b)
-            with self.config.output.open("w", encoding="utf-8") as pgn_file:
-                for game_number in range(1, self.config.number_of_games + 1):
+            mode = "a" if completed_games else "w"
+            with self.config.output.open(mode, encoding="utf-8") as pgn_file:
+                for game_number in range(completed_games + 1, self.config.number_of_games + 1):
                     a_is_white = game_number % 2 == 1
-                    game = self._play_game(a_engine, b_engine, readers, a_is_white, game_number)
+                    opening = openings[(game_number - 1) // 2] if openings is not None else None
+                    game = self._play_game(
+                        a_engine,
+                        b_engine,
+                        readers,
+                        a_is_white,
+                        game_number,
+                        opening,
+                        config_hash,
+                    )
                     print(game, file=pgn_file, end="\n\n")
+                    pgn_file.flush()
+                    os.fsync(pgn_file.fileno())
                     result = game.headers["Result"]
                     if result == "1/2-1/2":
                         draws += 1
@@ -88,7 +121,8 @@ class MatchRunner:
                         losses += 1
                     print(
                         f"Game {game_number}/{self.config.number_of_games}: {result} "
-                        f"({game.headers['White']} vs {game.headers['Black']})"
+                        f"({game.headers['White']} vs {game.headers['Black']})",
+                        flush=True,
                     )
         finally:
             for reader in readers.values():
@@ -108,6 +142,13 @@ class MatchRunner:
             raise ValueError("--move-time-ms must be at least 1")
         if self.config.max_plies < 1:
             raise ValueError("--max-plies must be at least 1")
+        if self.config.openings is not None:
+            if not self.config.openings.expanduser().is_file():
+                raise ValueError(f"Opening suite not found: {self.config.openings}")
+            if any(engine.book is not None for engine in (self.config.engine_a, self.config.engine_b)):
+                raise ValueError("--openings cannot be combined with engine opening books")
+        if self.config.resume and self.config.openings is None:
+            raise ValueError("--resume requires --openings")
         for engine in (self.config.engine_a, self.config.engine_b):
             if not engine.path.expanduser().is_file():
                 raise ValueError(f"Engine not found: {engine.path}")
@@ -159,6 +200,8 @@ class MatchRunner:
         readers: dict[Path, chess.polyglot.MemoryMappedReader],
         a_is_white: bool,
         game_number: int,
+        opening: Opening | None = None,
+        config_hash: str = "",
     ) -> chess.pgn.Game:
         white_config, black_config = (
             (self.config.engine_a, self.config.engine_b)
@@ -166,23 +209,35 @@ class MatchRunner:
             else (self.config.engine_b, self.config.engine_a)
         )
         white_engine, black_engine = (a_engine, b_engine) if a_is_white else (b_engine, a_engine)
-        board = chess.Board()
+        board = chess.Board(opening.initial_fen) if opening is not None else chess.Board()
         game = chess.pgn.Game()
+        if opening is not None and opening.initial_fen != chess.STARTING_FEN:
+            game.setup(board)
         game.headers.update(
             {
                 "Event": "Engine benchmark",
                 "Round": str(game_number),
                 "White": white_config.label,
                 "Black": black_config.label,
+                "ConfigHash": config_hash,
             }
         )
+        if opening is not None:
+            game.headers["OpeningIndex"] = str((game_number + 1) // 2)
+            game.headers["OpeningSuite"] = self.config.openings.name
         if white_config.elo is not None:
             game.headers["WhiteElo"] = str(white_config.elo)
         if black_config.elo is not None:
             game.headers["BlackElo"] = str(black_config.elo)
         node = game
+        if opening is not None:
+            for move in opening.moves:
+                if move not in board.legal_moves:
+                    raise RuntimeError(f"Illegal move {move} in opening {game.headers['OpeningIndex']}")
+                board.push(move)
+                node = node.add_variation(move)
         book_active = {chess.WHITE: white_config.book is not None, chess.BLACK: black_config.book is not None}
-        for _ in range(self.config.max_plies):
+        for _ in range(board.ply(), self.config.max_plies):
             if board.is_game_over(claim_draw=True):
                 break
             color = board.turn
@@ -210,6 +265,126 @@ class MatchRunner:
         game.headers["Result"] = result
         game.headers["Termination"] = termination
         return game
+
+    def _load_openings(self) -> list[Opening] | None:
+        if self.config.openings is None:
+            return None
+        openings: list[Opening] = []
+        with self.config.openings.expanduser().open(encoding="utf-8") as handle:
+            while game := chess.pgn.read_game(handle):
+                if game.errors:
+                    raise ValueError(f"Invalid opening suite PGN: {game.errors[0]}")
+                board = game.board()
+                initial_fen = board.fen()
+                moves = tuple(game.mainline_moves())
+                if not moves:
+                    raise ValueError("Every opening-suite game must contain at least one move")
+                for move in moves:
+                    if move not in board.legal_moves:
+                        raise ValueError(f"Illegal move {move} in opening-suite game {len(openings) + 1}")
+                    board.push(move)
+                if board.is_game_over(claim_draw=True):
+                    raise ValueError(f"Opening-suite game {len(openings) + 1} is already terminal")
+                if board.ply() >= self.config.max_plies:
+                    raise ValueError(
+                        f"Opening-suite game {len(openings) + 1} reaches --max-plies"
+                    )
+                openings.append(Opening(initial_fen, moves))
+        if not openings:
+            raise ValueError("Opening suite contains no games")
+        return openings
+
+    def _opening_digest(self) -> str | None:
+        if self.config.openings is None:
+            return None
+        return hashlib.sha256(self.config.openings.expanduser().read_bytes()).hexdigest()
+
+    def _config_hash(self, opening_digest: str | None) -> str:
+        def engine_values(engine: EngineConfig) -> dict[str, object]:
+            return {
+                "label": engine.label,
+                "path": str(engine.path.expanduser().resolve()),
+                "elo": engine.elo,
+                "self_elo": engine.self_elo,
+                "opponent_elo": engine.opponent_elo,
+                "temperature": engine.temperature,
+                "top_p": engine.top_p,
+                "book": str(engine.book.expanduser().resolve()) if engine.book else None,
+            }
+
+        values = {
+            "engine_a": engine_values(self.config.engine_a),
+            "engine_b": engine_values(self.config.engine_b),
+            "number_of_games": self.config.number_of_games,
+            "nodes": self.config.nodes,
+            "move_time_ms": self.config.move_time_ms,
+            "max_plies": self.config.max_plies,
+            "seed": self.config.seed,
+            "opening_sha256": opening_digest,
+        }
+        encoded = json.dumps(values, sort_keys=True, separators=(",", ":")).encode()
+        return hashlib.sha256(encoded).hexdigest()
+
+    def _resume_state(
+        self, openings: list[Opening] | None, config_hash: str
+    ) -> tuple[int, int, int, int]:
+        if not self.config.resume or not self.config.output.exists():
+            return 0, 0, 0, 0
+        completed = wins = draws = losses = 0
+        with self.config.output.open(encoding="utf-8") as handle:
+            while game := chess.pgn.read_game(handle):
+                completed += 1
+                if completed > self.config.number_of_games:
+                    raise ValueError("Resume PGN contains more games than requested")
+                if game.errors:
+                    raise ValueError(f"Invalid resume PGN: {game.errors[0]}")
+                self._validate_resumed_game(game, completed, openings, config_hash)
+                result = game.headers["Result"]
+                a_is_white = completed % 2 == 1
+                if result == "1/2-1/2":
+                    draws += 1
+                elif (result == "1-0") == a_is_white:
+                    wins += 1
+                else:
+                    losses += 1
+        return completed, wins, draws, losses
+
+    def _validate_resumed_game(
+        self,
+        game: chess.pgn.Game,
+        game_number: int,
+        openings: list[Opening] | None,
+        config_hash: str,
+    ) -> None:
+        a_is_white = game_number % 2 == 1
+        expected_white, expected_black = (
+            (self.config.engine_a.label, self.config.engine_b.label)
+            if a_is_white
+            else (self.config.engine_b.label, self.config.engine_a.label)
+        )
+        expected = {
+            "Round": str(game_number),
+            "White": expected_white,
+            "Black": expected_black,
+            "ConfigHash": config_hash,
+            "OpeningIndex": str((game_number + 1) // 2),
+        }
+        for name, value in expected.items():
+            if game.headers.get(name) != value:
+                raise ValueError(
+                    f"Resume PGN game {game_number} has incompatible {name}: "
+                    f"expected {value!r}, found {game.headers.get(name)!r}"
+                )
+        if game.headers.get("Result") not in {"1-0", "0-1", "1/2-1/2"}:
+            raise ValueError(f"Resume PGN game {game_number} has no resolved result")
+        if openings is None:
+            raise ValueError("Resume requires an opening suite")
+        opening = openings[(game_number - 1) // 2]
+        if game.board().fen() != opening.initial_fen:
+            raise ValueError(f"Resume PGN game {game_number} has the wrong initial position")
+        actual_moves = tuple(game.mainline_moves())
+        if actual_moves[: len(opening.moves)] != opening.moves:
+            raise ValueError(f"Resume PGN game {game_number} has the wrong opening prefix")
 
     def _book_move(
         self,

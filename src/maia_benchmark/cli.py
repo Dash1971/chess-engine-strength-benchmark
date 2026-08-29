@@ -19,6 +19,16 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--move-time-ms", type=int, help="Use a time limit instead of --nodes.")
     p.add_argument("--max-plies", type=int, default=300)
     p.add_argument("--seed", type=int, help="Optional seed for opening-book choices.")
+    p.add_argument(
+        "--openings",
+        type=Path,
+        help="PGN opening suite; each game is played twice with reversed engine colors.",
+    )
+    p.add_argument(
+        "--resume",
+        action="store_true",
+        help="Validate and continue an interrupted --openings match.",
+    )
     return p
 
 
@@ -64,6 +74,8 @@ def main() -> None:
         move_time_ms=args.move_time_ms,
         max_plies=args.max_plies,
         seed=args.seed,
+        openings=args.openings.expanduser().resolve() if args.openings is not None else None,
+        resume=args.resume,
     )
     try:
         summary = MatchRunner(config).run()

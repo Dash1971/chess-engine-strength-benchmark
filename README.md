@@ -1,7 +1,9 @@
 # chess-engine-strength-benchmark
 
 A simple command-line program for playing a color-balanced match between two
-installed UCI chess engines.
+installed UCI chess engines. It supports ordinary opening books or a fixed PGN
+opening suite in which every opening is played twice with reversed engine
+colors.
 
 It alternates colors automatically, prints the result of each game, summarizes
 Engine A's wins, draws, losses, win percentage, and score percentage, and saves
@@ -12,6 +14,7 @@ every game to one PGN file.
 - Python 3.9 or newer
 - two working UCI engine launchers
 - optional Polyglot opening books (`.bin`)
+- optional PGN opening suite for controlled paired matches
 
 This project does not install Maia. For a complete local Maia 3 installation,
 see [maia3-local-stack](https://github.com/Dash1971/maia3-local-stack).
@@ -50,6 +53,37 @@ own opening book. Engine A plays 50 games as White and 50 as Black.
 
 The number of games must be even so the color split is exactly 50/50.
 
+## Controlled paired-opening example
+
+For a controlled comparison, put one opening prefix in each game of a PGN file.
+This example assumes `openings.pgn` contains 100 games and therefore runs 200
+benchmark games: once per opening with Engine A as White and once with Engine B
+as White.
+
+```bash
+.venv/bin/maia-benchmark \
+  --engine-a-path ~/chess/maia3-engine/maia3-engine.sh \
+  --engine-a-name "Maia3 1100" \
+  --engine-a-elo 1100 \
+  --engine-a-self-elo 1100 \
+  --engine-a-opponent-elo 1900 \
+  --engine-a-temperature 0 \
+  --engine-a-top-p 1 \
+  --engine-b-path ~/chess/maia3-engine/maia3-engine.sh \
+  --engine-b-name "Maia3 1900" \
+  --engine-b-elo 1900 \
+  --engine-b-self-elo 1900 \
+  --engine-b-opponent-elo 1100 \
+  --engine-b-temperature 0 \
+  --engine-b-top-p 1 \
+  --openings openings.pgn \
+  --number-of-games 200 \
+  --output maia3-1100-vs-1900.pgn
+```
+
+Opening books cannot be combined with `--openings`. Moves in the PGN suite are
+the complete shared opening treatment; engine play begins after each prefix.
+
 ## Engine options
 
 Every engine option has an A and B version:
@@ -57,14 +91,20 @@ Every engine option has an A and B version:
 - `--engine-a-path` / `--engine-b-path` — UCI launcher (required)
 - `--engine-a-name` / `--engine-b-name` — label used in output and PGN
 - `--engine-a-elo` / `--engine-b-elo` — Maia Elo setting
-- `--engine-a-self-elo` / `--engine-b-self-elo` — Maia 3 SelfElo
-- `--engine-a-opponent-elo` / `--engine-b-opponent-elo` — Maia 3 OppoElo
+- `--engine-a-self-elo` / `--engine-b-self-elo` — engine SelfElo
+- `--engine-a-opponent-elo` / `--engine-b-opponent-elo` — engine OppoElo
 - `--engine-a-temperature` / `--engine-b-temperature` — Maia 3 Temperature
 - `--engine-a-top-p` / `--engine-b-top-p` — Maia 3 TopP
 - `--engine-a-book` / `--engine-b-book` — optional Polyglot book
 
 Only specify options supported by the selected engine. Option names are matched
 case-insensitively, so `ELO` and `Elo` are both handled.
+
+For a cross-rating match, configure both self and opponent Elo on each engine.
+For example, the 1100 profile should receive `SelfElo=1100` and
+`OppoElo=1900`, while its opponent receives the reverse. The engine launcher
+must expose those UCI options; the benchmark exits with a clear error if a
+requested option is unavailable.
 
 Match options:
 
@@ -74,8 +114,54 @@ Match options:
 - `--move-time-ms` — use a time limit per move instead of `--nodes`
 - `--max-plies` — draw cutoff; defaults to `300`
 - `--seed` — optional reproducible seed for opening-book choices
+- `--openings` — PGN opening suite; every suite game is used for a reversed-color pair
+- `--resume` — validate and continue an interrupted `--openings` match
 
 Run `maia-benchmark --help` for the complete CLI reference.
+
+## PGN opening suites
+
+An opening suite is an ordinary PGN containing one or more games. The main line
+of each game is treated as an opening prefix:
+
+- every suite game must contain at least one legal move;
+- the prefix must not already be terminal or reach `--max-plies`;
+- standard starting positions and PGN `FEN`/`SetUp` positions are supported;
+- PGN results and player names in the suite are not used;
+- `--number-of-games` must be exactly twice the number of suite games.
+
+For opening 1, Engine A plays White first and Engine B plays White second. The
+same pattern repeats for every opening. Output games include `OpeningIndex`,
+`OpeningSuite`, and `ConfigHash` headers so their schedule and configuration can
+be audited.
+
+Use one neutral suite for every matchup when comparing engine configurations.
+Rating-specific books should not be used for that purpose because opening
+quality would then be confounded with the engine setting being measured.
+
+## Checkpointing and resume
+
+Every completed game is written, flushed to disk, and announced immediately.
+If a paired-opening match is interrupted, rerun the identical command with
+`--resume`:
+
+```bash
+.venv/bin/maia-benchmark \
+  ...same engine and match options... \
+  --openings openings.pgn \
+  --number-of-games 200 \
+  --output maia3-1100-vs-1900.pgn \
+  --resume
+```
+
+Before appending, the runner validates every completed game against the engine
+labels, color schedule, opening index, opening moves, opening-suite SHA-256, and
+all strength/search settings. It refuses to resume if the suite, engine paths,
+ratings, sampling options, seed, limits, or requested game count changed.
+
+Resume is intentionally limited to `--openings` matches, where the remaining
+schedule is fully predetermined. Without `--resume`, the output file is started
+from the beginning as in the original workflow.
 
 ## Published benchmark report
 
