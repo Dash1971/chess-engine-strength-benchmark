@@ -38,14 +38,25 @@ Run the optional desktop interface with:
 
 The GUI provides the same engine and match settings as the command line, file
 pickers for launchers, books, opening suites, and output, plus live match output,
-stop, resume, and a button to reveal the resulting PGN. It invokes the regular
-`maia-benchmark` implementation, so GUI and command-line matches use the same
-validation, pairing, checkpointing, and output format.
+stop, resume, a button to reveal the resulting PGN, and live elapsed time,
+games-per-hour, and estimated time remaining. It remembers the last-used engine
+and match settings across launches; Resume is deliberately reset to off. It
+invokes the regular `maia-benchmark` implementation, so GUI and command-line
+matches use the same validation, pairing, checkpointing, and output format and
+should have effectively identical game throughput.
 
-Tkinter is included with standard Python installers on macOS. Some minimal
-Linux installations package it separately; on Debian and Ubuntu it can be
-installed with `sudo apt install python3-tk`. A graphical desktop session is
-required. The command-line interface remains available on headless machines.
+Tkinter is included with standard Python installers from python.org on macOS.
+Homebrew packages it separately; install the version matching Homebrew Python,
+for example `brew install python-tk@3.14` for Python 3.14. Some Linux
+installations also package it separately; on Debian and Ubuntu use
+`sudo apt install python3-tk`. Verify the active environment with
+`.venv/bin/python -c "import tkinter; print(tkinter.TkVersion)"`. A graphical
+desktop session is required. The command-line interface remains available on
+headless machines.
+
+Settings are stored in
+`~/Library/Application Support/maia-benchmark/gui-settings.json` on macOS and
+`${XDG_CONFIG_HOME:-~/.config}/maia-benchmark/gui-settings.json` on Linux.
 
 Stopping terminates the running match process. Completed games have already
 been flushed to the PGN; select the same opening suite and output, check

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import json
 import os
 import queue
+import re
 import signal
 import subprocess
 import sys
 import threading
+import time
 from pathlib import Path
 from tkinter import BooleanVar, StringVar, Tk, filedialog, messagebox, ttk
 from tkinter.scrolledtext import ScrolledText
@@ -31,6 +34,64 @@ MATCH_FIELDS = (
     ("max-plies", "Maximum plies", None),
     ("seed", "Book seed", None),
 )
+
+GAME_PROGRESS = re.compile(r"^Game (\d+)/(\d+):")
+
+
+def settings_path() -> Path:
+    if sys.platform == "darwin":
+        return (
+            Path.home()
+            / "Library"
+            / "Application Support"
+            / "maia-benchmark"
+            / "gui-settings.json"
+        )
+    config_home = os.environ.get("XDG_CONFIG_HOME")
+    base = Path(config_home).expanduser() if config_home else Path.home() / ".config"
+    return base / "maia-benchmark" / "gui-settings.json"
+
+
+def load_settings(path: Path) -> dict[str, str]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    return {
+        key: value
+        for key, value in data.items()
+        if isinstance(key, str) and isinstance(value, str)
+    }
+
+
+def save_settings(path: Path, values: dict[str, str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(values, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    temporary.chmod(0o600)
+    temporary.replace(path)
+
+
+def progress_text(completed: int, total: int, elapsed: float, newly_completed: int) -> str:
+    elapsed_text = format_duration(elapsed)
+    if newly_completed <= 0 or elapsed <= 0:
+        return f"Running — {completed}/{total} games — elapsed {elapsed_text}"
+    games_per_hour = newly_completed / elapsed * 3600
+    remaining = max(total - completed, 0)
+    eta = remaining / games_per_hour * 3600
+    return (
+        f"Running — {completed}/{total} games — elapsed {elapsed_text} — "
+        f"{games_per_hour:.1f} games/hour — ETA {format_duration(eta)}"
+    )
+
+
+def format_duration(seconds: float) -> str:
+    seconds = max(round(seconds), 0)
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{hours:d}:{minutes:02d}:{seconds:02d}"
 
 
 def build_command(values: dict[str, str], resume: bool = False) -> list[str]:
@@ -64,6 +125,11 @@ class BenchmarkGui:
         self.resume = BooleanVar(value=False)
         self.process: subprocess.Popen[str] | None = None
         self.events: queue.Queue[tuple[str, str | int]] = queue.Queue()
+        self.started_at: float | None = None
+        self.completed_games = 0
+        self.total_games = 0
+        self.resume_baseline: int | None = None
+        self.last_progress_update = 0.0
 
         container = ttk.Frame(root, padding=12)
         container.grid(row=0, column=0, sticky="nsew")
@@ -84,6 +150,8 @@ class BenchmarkGui:
         ttk.Label(container, textvariable=self.status).grid(
             row=4, column=0, columnspan=2, sticky="w", pady=(6, 0)
         )
+
+        self._restore_settings()
 
         self.root.protocol("WM_DELETE_WINDOW", self._close)
         self.root.after(100, self._poll_events)
@@ -165,8 +233,17 @@ class BenchmarkGui:
             messagebox.showerror("Invalid configuration", str(error))
             return
 
+        self._save_settings()
         self._append("Starting match…\n")
-        self.status.set("Running")
+        self.started_at = time.monotonic()
+        self.completed_games = 0
+        try:
+            self.total_games = int(self.variables["number-of-games"].get())
+        except ValueError:
+            self.total_games = 0
+        self.resume_baseline = None
+        self.last_progress_update = 0.0
+        self._update_progress(force=True)
         self.start_button.configure(state="disabled")
         self.stop_button.configure(state="normal")
         threading.Thread(target=self._run, args=(command,), daemon=True).start()
@@ -201,16 +278,50 @@ class BenchmarkGui:
             while True:
                 kind, value = self.events.get_nowait()
                 if kind == "output":
-                    self._append(str(value))
+                    output = str(value)
+                    self._append(output)
+                    self._record_progress(output)
                 else:
                     return_code = int(value)
                     self.process = None
                     self.start_button.configure(state="normal")
                     self.stop_button.configure(state="disabled")
-                    self.status.set("Complete" if return_code == 0 else f"Stopped (exit {return_code})")
+                    elapsed = time.monotonic() - self.started_at if self.started_at is not None else 0
+                    prefix = "Complete" if return_code == 0 else f"Stopped (exit {return_code})"
+                    self.status.set(f"{prefix} — elapsed {format_duration(elapsed)}")
+                    self.started_at = None
         except queue.Empty:
             pass
+        self._update_progress()
         self.root.after(100, self._poll_events)
+
+    def _record_progress(self, line: str) -> None:
+        match = GAME_PROGRESS.match(line)
+        if match is None:
+            return
+        completed, total = map(int, match.groups())
+        if self.resume_baseline is None:
+            self.resume_baseline = completed - 1
+        self.completed_games = completed
+        self.total_games = total
+
+    def _update_progress(self, force: bool = False) -> None:
+        if self.started_at is None:
+            return
+        now = time.monotonic()
+        if not force and now - self.last_progress_update < 1:
+            return
+        self.last_progress_update = now
+        baseline = self.resume_baseline or 0
+        newly_completed = max(self.completed_games - baseline, 0)
+        self.status.set(
+            progress_text(
+                self.completed_games,
+                self.total_games,
+                now - self.started_at,
+                newly_completed,
+            )
+        )
 
     def _append(self, text: str) -> None:
         self.log.configure(state="normal")
@@ -237,7 +348,21 @@ class BenchmarkGui:
             if not messagebox.askyesno("Match running", "Stop the match and close the window?"):
                 return
             os.killpg(self.process.pid, signal.SIGINT)
+        self._save_settings()
         self.root.destroy()
+
+    def _restore_settings(self) -> None:
+        for key, value in load_settings(settings_path()).items():
+            if key in self.variables:
+                self.variables[key].set(value)
+        self.resume.set(False)
+
+    def _save_settings(self) -> None:
+        values = {key: variable.get() for key, variable in self.variables.items()}
+        try:
+            save_settings(settings_path(), values)
+        except OSError as error:
+            self._append(f"Could not save GUI settings: {error}\n")
 
 
 def main() -> None:
