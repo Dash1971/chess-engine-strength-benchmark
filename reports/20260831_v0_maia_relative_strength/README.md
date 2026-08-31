@@ -5,28 +5,75 @@ separation Maia 2 and Maia 3 preserve across nominal settings from 1100 to 1900.
 It contains 3,000 games: 15 matchups, 200 games per matchup, and 100 fixed
 opening prefixes played once with each engine-color assignment.
 
-## Executive summary
+## Plain-English conclusions
 
-Maia 3 preserved substantially more of the nominal rating scale than Maia 2.
-The Bradley–Terry fitted strength-on-label slope was **0.476** for Maia 3 and
-**0.177** for Maia 2. Their difference was **0.299**, with a paired-opening
-cluster-bootstrap 95% interval of **0.217–0.388**. A draw-aware Davidson fit
-gave the same conclusion: slopes of 0.615 and 0.274, respectively.
+### 1. Maia 3 is much less compressed than Maia 2
 
-The direct 1100-vs-1900 match told the same story:
+**Yes: Maia 3 turns changes in its rating setting into much larger changes in
+full-game playing strength.** Neither family reproduces the nominal Elo scale
+literally, but Maia 3 preserves far more of it:
 
-- Maia 2 1100 scored 30.75% against Maia 2 1900, a descriptive realized gap
-  of 141 Elo, or 17.6% of the nominal 800-point span.
-- Maia 3 1100 scored 10.50% against Maia 3 1900, a descriptive realized gap
-  of 372 Elo, or 46.5% of the nominal span.
+| Simple comparison | Maia 2 | Maia 3 |
+|---|---:|---:|
+| Realized 1100–1900 gap | 141 Elo | 372 Elo |
+| Share of the nominal 800-point span | 17.6% | 46.5% |
+| Fitted strength gained per nominal point | 0.177 | 0.476 |
 
-Both families were monotonic in the fitted model, but Maia 2 was highly
-compressed. Its 1300–1500 and 1700–1900 direct matches were essentially flat.
-All four Maia 3 adjacent bands favored the higher setting after Holm correction.
+In practical terms, Maia 2's five settings often play much closer together
+than their labels suggest. Maia 3 still compresses the scale, but its settings
+form a substantially clearer strength ladder. The fitted slope difference was
+**0.299**, with a paired-opening bootstrap 95% interval of **0.217–0.388** and
+a two-sided bootstrap tail probability below 0.0001.
 
-At equal labels, Maia 2 and Maia 3 were level at 1100 and 1300. Maia 3 then led
-increasingly at 1500, 1700, and 1900. After correction across the five equal-label
-tests, the Maia 3 advantage was resolved at 1700 and 1900, but not at 1500.
+### 2. The win/draw/loss results had the right direction, but not the expected size
+
+Every higher-rated configuration outscored its lower-rated counterpart. There
+were **no rating inversions**. The surprise was the amount of compression,
+especially in Maia 2.
+
+If a 200-point label difference behaved like a literal 200-point Elo gap, the
+lower setting would be expected to score about 24%. Instead:
+
+- Maia 2's lower setting scored **41.5–48.5%** in adjacent-band matches. Some
+  nominally 200-point-apart settings were almost equal.
+- Maia 3's lower setting scored **32.75–39.0%**. This is still compressed, but
+  every adjacent band was clearly separated after multiple-test correction.
+
+### 3. The best- and worst-separated rating bands
+
+Win/draw/loss below is shown from the **higher-rated setting's perspective** so
+the comparison is easy to read.
+
+| Family | Separation | Band | Higher setting W–D–L | Realized gap | What it means |
+|---|---|---:|---:|---:|---|
+| Maia 2 | Best | 1100–1300 | 80–74–46 | 60 Elo | Clearest Maia 2 adjacent step |
+| Maia 2 | Nearly best | 1500–1700 | 82–69–49 | 58 Elo | Also statistically resolved |
+| Maia 2 | Second worst | 1300–1500 | 72–64–64 | 14 Elo | Essentially flat |
+| Maia 2 | Worst | 1700–1900 | 70–66–64 | 10 Elo | Almost no measurable separation |
+| Maia 3 | Best | 1500–1700 | 118–33–49 | 125 Elo | Strongest adjacent separation |
+| Maia 3 | Next best | 1100–1300 | 103–51–46 | 102 Elo | Clear separation |
+| Maia 3 | Weakest, tied | 1300–1500 | 100–44–56 | 78 Elo | Compressed, but clearly separated |
+| Maia 3 | Weakest, tied | 1700–1900 | 103–38–59 | 78 Elo | Compressed, but clearly separated |
+
+Only two of Maia 2's four adjacent steps—1100–1300 and 1500–1700—were
+statistically resolved after correction. **All four Maia 3 steps were resolved.**
+
+### 4. Maia 3 becomes stronger than Maia 2 at the same label as the label rises
+
+Maia 3 is not uniformly stronger at every matching label. The two generations
+were level at the bottom, after which Maia 3 pulled progressively ahead:
+
+| Equal-label match | Maia 3 W–D–L | Maia 3 score | Conclusion |
+|---:|---:|---:|---|
+| 1100 | 77–49–74 | 50.75% | Effectively even |
+| 1300 | 76–48–76 | 50.00% | Even |
+| 1500 | 90–43–67 | 55.75% | Maia 3 ahead, but not statistically conclusive |
+| 1700 | 97–57–46 | 62.75% | Maia 3 clearly stronger |
+| 1900 | 118–46–36 | 70.50% | Maia 3 substantially stronger |
+
+The widening advantage supports a **larger Maia 3 strength range**, not a
+uniform generation-wide strength boost. At equal labels, the Maia 3 advantage
+was statistically resolved at 1700 and 1900, but not at 1500.
 
 These are **engine-relative measurements for the exact configurations below**.
 They do not show that a nominal Maia 1500 plays like a 1500-rated human, nor do
