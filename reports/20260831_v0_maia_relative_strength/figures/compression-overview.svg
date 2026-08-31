@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="chart-title chart-desc">
+  <title id="chart-title">Endpoint scale preservation</title>
+  <desc id="chart-desc">Maia 2 preserved 17.6 percent of the nominal 800-point span while Maia 3 preserved 46.5 percent.</desc>
+  <rect width="960" height="420" fill="#ffffff"/>
+  <style>
+      .title { font: 700 30px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .subtitle { font: 400 19px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .label { font: 600 20px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .value { font: 700 21px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .small { font: 400 17px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .tiny { font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+    </style>
+  <text x="40.0" y="48.0" class="title" text-anchor="start">How much of the nominal 1100–1900 gap survived?</text>
+  <text x="40.0" y="82.0" class="subtitle" text-anchor="start">An uncompressed scale would reach 100%.</text>
+  <line x1="235.0" y1="108.0" x2="235.0" y2="316.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="235.0" y="345.0" class="small" text-anchor="middle">0%</text>
+  <line x1="395.0" y1="108.0" x2="395.0" y2="316.0" stroke="#d8dee9" stroke-width="1.0" stroke-dasharray="5 6"/>
+  <text x="395.0" y="345.0" class="small" text-anchor="middle">25%</text>
+  <line x1="555.0" y1="108.0" x2="555.0" y2="316.0" stroke="#d8dee9" stroke-width="1.0" stroke-dasharray="5 6"/>
+  <text x="555.0" y="345.0" class="small" text-anchor="middle">50%</text>
+  <line x1="715.0" y1="108.0" x2="715.0" y2="316.0" stroke="#d8dee9" stroke-width="1.0" stroke-dasharray="5 6"/>
+  <text x="715.0" y="345.0" class="small" text-anchor="middle">75%</text>
+  <line x1="875.0" y1="108.0" x2="875.0" y2="316.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="875.0" y="345.0" class="small" text-anchor="middle">100%</text>
+  <text x="40.0" y="175.0" class="label" text-anchor="start">Maia 2</text>
+  <rect x="235.0" y="140.0" width="640.0" height="50.0" rx="8.0" fill="#eef2f7"/>
+  <rect x="235.0" y="140.0" width="112.8" height="50.0" rx="8.0" fill="#64748b"/>
+  <text x="361.8" y="174.0" class="value" text-anchor="start">17.6%</text>
+  <text x="235.0" y="217.0" class="small" text-anchor="start">141 realized Elo; fitted slope 0.177</text>
+  <text x="40.0" y="275.0" class="label" text-anchor="start">Maia 3</text>
+  <rect x="235.0" y="240.0" width="640.0" height="50.0" rx="8.0" fill="#eef2f7"/>
+  <rect x="235.0" y="240.0" width="297.8" height="50.0" rx="8.0" fill="#2563eb"/>
+  <text x="546.8" y="274.0" class="value" text-anchor="start">46.5%</text>
+  <text x="235.0" y="317.0" class="small" text-anchor="start">372 realized Elo; fitted slope 0.476</text>
+  <text x="40.0" y="388.0" class="label" text-anchor="start">Maia 3 preserved about 2.6× as much of the endpoint span.</text>
+</svg>

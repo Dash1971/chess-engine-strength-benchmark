@@ -19,6 +19,8 @@ literally, but Maia 3 preserves far more of it:
 | Share of the nominal 800-point span | 17.6% | 46.5% |
 | Fitted strength gained per nominal point | 0.177 | 0.476 |
 
+![Bar chart showing Maia 2 preserving 17.6% and Maia 3 preserving 46.5% of the nominal 1100–1900 span](figures/compression-overview.svg)
+
 In practical terms, Maia 2's five settings often play much closer together
 than their labels suggest. Maia 3 still compresses the scale, but its settings
 form a substantially clearer strength ladder. The fitted slope difference was
@@ -44,6 +46,8 @@ lower setting would be expected to score about 24%. Instead:
 Win/draw/loss below is shown from the **higher-rated setting's perspective** so
 the comparison is easy to read.
 
+![Grouped bar chart comparing the realized adjacent-band Elo gaps for Maia 2 and Maia 3](figures/adjacent-band-separation.svg)
+
 | Family | Separation | Band | Higher setting W–D–L | Realized gap | What it means |
 |---|---|---:|---:|---:|---|
 | Maia 2 | Best | 1100–1300 | 80–74–46 | 60 Elo | Clearest Maia 2 adjacent step |
@@ -62,6 +66,8 @@ statistically resolved after correction. **All four Maia 3 steps were resolved.*
 
 Maia 3 is not uniformly stronger at every matching label. The two generations
 were level at the bottom, after which Maia 3 pulled progressively ahead:
+
+![Line chart showing Maia 3's score against Maia 2 rising from approximately 50% at 1100 and 1300 to 70.5% at 1900](figures/same-label-maia3-score.svg)
 
 | Equal-label match | Maia 3 W–D–L | Maia 3 score | Conclusion |
 |---:|---:|---:|---|
@@ -238,6 +244,7 @@ Create a separate environment and rerun the analysis from this directory:
 python3 -m venv .analysis-venv
 .analysis-venv/bin/pip install -r requirements.txt
 .analysis-venv/bin/python analysis.py
+.analysis-venv/bin/python visualize.py
 cd data && shasum -a 256 -c SHA256SUMS
 ```
 
@@ -253,6 +260,9 @@ The data appendix contains:
 - [`terminations.csv`](data/terminations.csv) — game-ending distribution
 - [`summary.json`](data/summary.json) — machine-readable integrity summary
 - [`SHA256SUMS`](data/SHA256SUMS) — hashes for all tables and 15 PGNs
+- [`visualize.py`](visualize.py) — standard-library SVG chart generator
+- [`figures/`](figures/) — three generated, accessible SVG figures
 
-The PGNs are the primary records. All tables are regenerated from them by the
-published script.
+The PGNs are the primary records. All tables are regenerated from them by
+`analysis.py`; all figures are regenerated from the published tables by
+`visualize.py`.

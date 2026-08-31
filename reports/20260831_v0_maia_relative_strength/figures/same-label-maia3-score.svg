@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-labelledby="chart-title chart-desc">
+  <title id="chart-title">Maia 3 score against Maia 2 at equal labels</title>
+  <desc id="chart-desc">A line rises from roughly 50 percent at 1100 and 1300 to 70.5 percent at 1900, with statistically resolved advantages at 1700 and 1900.</desc>
+  <rect width="960" height="640" fill="#ffffff"/>
+  <style>
+      .title { font: 700 30px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .subtitle { font: 400 19px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .label { font: 600 20px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .value { font: 700 21px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .small { font: 400 17px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .tiny { font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+    </style>
+  <text x="40.0" y="48.0" class="title" text-anchor="start">Maia 3 versus Maia 2 at the same label</text>
+  <text x="40.0" y="82.0" class="subtitle" text-anchor="start">Maia 3&#x27;s score rises sharply at the higher rating settings.</text>
+  <line x1="110.0" y1="399.2" x2="895.0" y2="399.2" stroke="#0f766e" stroke-width="2.0" stroke-dasharray="7 6"/>
+  <text x="92.0" y="406.2" class="small" text-anchor="end">50%</text>
+  <line x1="110.0" y1="343.3" x2="895.0" y2="343.3" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="92.0" y="350.3" class="small" text-anchor="end">55%</text>
+  <line x1="110.0" y1="287.5" x2="895.0" y2="287.5" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="92.0" y="294.5" class="small" text-anchor="end">60%</text>
+  <line x1="110.0" y1="231.7" x2="895.0" y2="231.7" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="92.0" y="238.7" class="small" text-anchor="end">65%</text>
+  <line x1="110.0" y1="175.8" x2="895.0" y2="175.8" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="92.0" y="182.8" class="small" text-anchor="end">70%</text>
+  <line x1="110.0" y1="120.0" x2="895.0" y2="120.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="92.0" y="127.0" class="small" text-anchor="end">75%</text>
+  <text x="895.0" y="387.2" class="small" text-anchor="end">50% = even</text>
+  <polyline points="110.0,390.8 306.2,399.2 502.5,335.0 698.8,256.8 895.0,170.2" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="110.0" cy="390.8" r="11" fill="#ffffff" stroke="#2563eb" stroke-width="5"/>
+  <text x="110.0" y="369.8" class="value" text-anchor="middle">50.75%</text>
+  <text x="110.0" y="495.0" class="label" text-anchor="middle">1100</text>
+  <text x="110.0" y="524.0" class="tiny" text-anchor="middle">even</text>
+  <circle cx="306.2" cy="399.2" r="11" fill="#ffffff" stroke="#2563eb" stroke-width="5"/>
+  <text x="306.2" y="378.2" class="value" text-anchor="middle">50.0%</text>
+  <text x="306.2" y="495.0" class="label" text-anchor="middle">1300</text>
+  <text x="306.2" y="524.0" class="tiny" text-anchor="middle">even</text>
+  <circle cx="502.5" cy="335.0" r="11" fill="#ffffff" stroke="#2563eb" stroke-width="5"/>
+  <text x="502.5" y="314.0" class="value" text-anchor="middle">55.75%</text>
+  <text x="502.5" y="495.0" class="label" text-anchor="middle">1500</text>
+  <text x="502.5" y="524.0" class="tiny" text-anchor="middle">trend</text>
+  <circle cx="698.8" cy="256.8" r="11" fill="#2563eb" stroke="#2563eb" stroke-width="5"/>
+  <text x="698.8" y="235.8" class="value" text-anchor="middle">62.75%</text>
+  <text x="698.8" y="495.0" class="label" text-anchor="middle">1700</text>
+  <text x="698.8" y="524.0" class="tiny" text-anchor="middle">clear</text>
+  <circle cx="895.0" cy="170.2" r="11" fill="#2563eb" stroke="#2563eb" stroke-width="5"/>
+  <text x="895.0" y="149.2" class="value" text-anchor="middle">70.50%</text>
+  <text x="895.0" y="495.0" class="label" text-anchor="middle">1900</text>
+  <text x="895.0" y="524.0" class="tiny" text-anchor="middle">clear</text>
+  <text x="40.0" y="566.0" class="small" text-anchor="start">Filled points mark statistically resolved Maia 3 advantages.</text>
+  <text x="40.0" y="610.0" class="label" text-anchor="start">Bottom line: even at 1100–1300, then increasingly Maia 3-favored.</text>
+</svg>
