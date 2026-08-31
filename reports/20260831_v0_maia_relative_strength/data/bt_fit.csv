@@ -1,0 +1,11 @@
+family,matchup,observed_engine_a_score,fitted_engine_a_score,residual_percentage_points
+maia2,maia2-1100__vs__maia2-1300,0.415000,0.415220,-0.022
+maia2,maia2-1100__vs__maia2-1900,0.307500,0.307280,0.022
+maia2,maia2-1300__vs__maia2-1500,0.480000,0.480220,-0.022
+maia2,maia2-1500__vs__maia2-1700,0.417500,0.417720,-0.022
+maia2,maia2-1700__vs__maia2-1900,0.485000,0.485220,-0.022
+maia3,maia3-1100__vs__maia3-1300,0.357500,0.359553,-0.205
+maia3,maia3-1100__vs__maia3-1900,0.105000,0.102947,0.205
+maia3,maia3-1300__vs__maia3-1500,0.390000,0.392053,-0.205
+maia3,maia3-1500__vs__maia3-1700,0.327500,0.329553,-0.205
+maia3,maia3-1700__vs__maia3-1900,0.390000,0.392053,-0.205

@@ -197,7 +197,12 @@ Resume is intentionally limited to `--openings` matches, where the remaining
 schedule is fully predetermined. Without `--resume`, the output file is started
 from the beginning as in the original workflow.
 
-## Published benchmark report
+## Published benchmark reports
+
+The [Maia 2 and Maia 3 relative-strength study](reports/20260831_v0_maia_relative_strength/README.md)
+is the main preregistered report: 3,000 paired-opening games across ratings
+1100–1900, family strength curves, uncertainty analysis, all PGNs, and
+reproducible derived tables.
 
 See the [expanded Maia 1600 engine-profile benchmark](reports/20260829_v1_maia_1600_benchmark/README.md)
 for a worked example using this tool: five profiles, ten matchups, 1,000 games,
@@ -205,7 +210,7 @@ methodology, statistical analysis, performance observations, and the complete
 PGN and game-level dataset. The original
 [600-game report](reports/20260829_v0_maia_1600_benchmark/README.md) is preserved.
 
-The frozen methodology for the next study is available as the
+The frozen methodology for the relative-strength study is preserved as its
 [Maia 2 and Maia 3 relative-strength preregistration](docs/maia-relative-strength-preregistration.md),
 including its shared 100-opening suite, match schedule, exclusion rules, and
 statistical analysis plan.

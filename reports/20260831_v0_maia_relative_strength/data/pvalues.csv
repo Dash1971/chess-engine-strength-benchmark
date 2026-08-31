@@ -1,0 +1,16 @@
+matchup,family,raw_p,holm_p
+maia2-1100__vs__maia2-1300,maia2_adjacent,0.00150998,0.00603994
+maia2-1100__vs__maia2-1900,endpoint_unadjusted,0.00001000,0.00001000
+maia2-1100__vs__maia3-1100,cross_generation,0.87099129,1.00000000
+maia2-1300__vs__maia2-1500,maia2_adjacent,0.52303477,1.00000000
+maia2-1300__vs__maia3-1300,cross_generation,1.00000000,1.00000000
+maia2-1500__vs__maia2-1700,maia2_adjacent,0.00372996,0.01118989
+maia2-1500__vs__maia3-1500,cross_generation,0.07957920,0.23873761
+maia2-1700__vs__maia2-1900,maia2_adjacent,0.65820342,1.00000000
+maia2-1700__vs__maia3-1700,cross_generation,0.00002000,0.00008000
+maia2-1900__vs__maia3-1900,cross_generation,0.00001000,0.00005000
+maia3-1100__vs__maia3-1300,maia3_adjacent,0.00001000,0.00004000
+maia3-1100__vs__maia3-1900,endpoint_unadjusted,0.00001000,0.00001000
+maia3-1300__vs__maia3-1500,maia3_adjacent,0.00018000,0.00036000
+maia3-1500__vs__maia3-1700,maia3_adjacent,0.00001000,0.00004000
+maia3-1700__vs__maia3-1900,maia3_adjacent,0.00066999,0.00066999

@@ -1,0 +1,4 @@
+family,bt_slope,bt_slope_ci95_low,bt_slope_ci95_high,davidson_slope,davidson_draw_nu,davidson_nll,bt_fit_rmse_percentage_points
+maia2,0.176935,0.132371,0.224015,0.274290,1.083785,1066.183,0.022
+maia3,0.475874,0.408517,0.552930,0.614984,0.524712,912.499,0.205
+maia3_minus_maia2,0.298939,0.216859,0.387948,0.340694,,,
