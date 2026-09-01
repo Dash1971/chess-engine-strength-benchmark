@@ -24,6 +24,8 @@ change-point estimate or a directly comparable replacement for the original
 slope. The 1600 anchor was not part of the original within-family graph, and
 the follow-up fit is saturated by only two scheduled edges.
 
+![Grouped bars comparing the nominal 500- and 700-point label gaps with realized gaps of 260.5 and 246.3 Elo](figures/high-rating-compression.svg)
+
 ## Completion and integrity
 
 The frozen study completed all 400 games at 2026-09-01 22:17:31 UTC
@@ -59,6 +61,8 @@ keeping each color-reversed pair together.
 | 1600 vs 2100 | 23/27/150 | 18.25% (13.75–23.00%) | 260.5 Elo (209.9–319.0) | 52.1% (42.0–63.8%) |
 | 1600 vs 2300 | 26/26/148 | 19.50% (15.00–24.00%) | 246.3 Elo (200.2–301.3) | 35.2% (28.6–43.0%) |
 
+![Point-and-whisker chart showing the 1600 profile scoring far below 50 percent against both higher labels, with substantially overlapping confidence intervals](figures/score-intervals.svg)
+
 The paired sign-flip p-value was at the Monte Carlo floor for each matchup
 (`p = 0.000010` raw; `p = 0.000020` after Holm correction across the two
 tests). Thus, the 1600 profile scored decisively below 50% against both higher
@@ -71,6 +75,8 @@ fact, the 1600 profile's observed score was slightly higher against 2300 than
 against 2100, so the shared-anchor point estimate puts 2300 about 14 Elo below
 2100. That comparison is indirect, was not a direct scheduled matchup, and
 should not be treated as evidence of a reversed ordering.
+
+![Shared-anchor study diagram with direct 1600–2100 and 1600–2300 edges but no direct 2100–2300 matchup](figures/study-design.svg)
 
 These are engine-relative full-game results under the frozen deterministic
 settings. Maia conditioning labels are not demonstrated human Elo ratings.
@@ -118,6 +124,7 @@ From this directory, reproduce the validation and analysis with:
 python3 -m venv .analysis-venv
 .analysis-venv/bin/pip install -r requirements.txt
 .analysis-venv/bin/python analysis.py
+.analysis-venv/bin/python visualize.py
 cd data && shasum -a 256 -c SHA256SUMS
 ```
 
@@ -132,3 +139,5 @@ Published data:
 - [`integrity.json`](data/integrity.json) — machine-readable validation record
 - [`summary.json`](data/summary.json) — full machine-readable analysis summary
 - [`SHA256SUMS`](data/SHA256SUMS) — hashes for the two PGNs and all derived data
+- [`visualize.py`](visualize.py) — standard-library accessible SVG generator
+- [`figures/`](figures/) — three generated SVG figures

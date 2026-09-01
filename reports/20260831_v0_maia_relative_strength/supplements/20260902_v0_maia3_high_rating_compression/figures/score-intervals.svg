@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="485" viewBox="0 0 960 485" role="img" aria-labelledby="chart-title chart-desc">
+  <title id="chart-title">Maia 3 1600 score against higher labels</title>
+  <desc id="chart-desc">The 1600 profile scored 18.25 percent against 2100 with a 13.75 to 23.00 percent interval, and 19.50 percent against 2300 with a 15.00 to 24.00 percent interval. Both are far below 50 percent and the intervals overlap.</desc>
+  <rect width="960" height="485" fill="#ffffff"/>
+  <style>
+      .title { font: 700 30px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .subtitle { font: 400 19px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .label { font: 600 20px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .value { font: 700 21px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .small { font: 400 17px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .tiny { font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .inverse { font: 700 23px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #ffffff; }
+    </style>
+  <text x="40.0" y="48.0" class="title" text-anchor="start">The 1600 profile scored far below 50%</text>
+  <text x="40.0" y="82.0" class="subtitle" text-anchor="start">Points show observed score; whiskers show paired-opening bootstrap 95% intervals.</text>
+  <line x1="220.0" y1="120.0" x2="220.0" y2="365.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="220.0" y="398.0" class="small" text-anchor="middle">0%</text>
+  <line x1="351.0" y1="120.0" x2="351.0" y2="365.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="351.0" y="398.0" class="small" text-anchor="middle">10%</text>
+  <line x1="482.0" y1="120.0" x2="482.0" y2="365.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="482.0" y="398.0" class="small" text-anchor="middle">20%</text>
+  <line x1="613.0" y1="120.0" x2="613.0" y2="365.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="613.0" y="398.0" class="small" text-anchor="middle">30%</text>
+  <line x1="744.0" y1="120.0" x2="744.0" y2="365.0" stroke="#d8dee9" stroke-width="1.0"/>
+  <text x="744.0" y="398.0" class="small" text-anchor="middle">40%</text>
+  <line x1="875.0" y1="120.0" x2="875.0" y2="365.0" stroke="#0f766e" stroke-width="2.0" stroke-dasharray="7 6"/>
+  <text x="875.0" y="398.0" class="small" text-anchor="middle">50%</text>
+  <text x="875.0" y="108.0" class="small" text-anchor="end">50% = even</text>
+  <text x="40.0" y="192.0" class="label" text-anchor="start">1600 vs 2100</text>
+  <line x1="400.1" y1="185.0" x2="521.3" y2="185.0" stroke="#2563eb" stroke-width="6.0"/>
+  <line x1="400.1" y1="172.0" x2="400.1" y2="198.0" stroke="#2563eb" stroke-width="4.0"/>
+  <line x1="521.3" y1="172.0" x2="521.3" y2="198.0" stroke="#2563eb" stroke-width="4.0"/>
+  <circle cx="459.1" cy="185.0" r="12.0" fill="#ffffff" stroke="#2563eb" stroke-width="6.0"/>
+  <text x="459.1" y="160.0" class="value" text-anchor="middle">18.25%</text>
+  <text x="459.1" y="222.0" class="tiny" text-anchor="middle">13.75–23.00%</text>
+  <text x="40.0" y="307.0" class="label" text-anchor="start">1600 vs 2300</text>
+  <line x1="416.5" y1="300.0" x2="534.4" y2="300.0" stroke="#2563eb" stroke-width="6.0"/>
+  <line x1="416.5" y1="287.0" x2="416.5" y2="313.0" stroke="#2563eb" stroke-width="4.0"/>
+  <line x1="534.4" y1="287.0" x2="534.4" y2="313.0" stroke="#2563eb" stroke-width="4.0"/>
+  <circle cx="475.5" cy="300.0" r="12.0" fill="#ffffff" stroke="#2563eb" stroke-width="6.0"/>
+  <text x="475.5" y="275.0" class="value" text-anchor="middle">19.50%</text>
+  <text x="475.5" y="337.0" class="tiny" text-anchor="middle">15.00–24.00%</text>
+  <text x="40.0" y="455.0" class="label" text-anchor="start">Both intervals are far from 50% and overlap substantially with each other.</text>
+</svg>

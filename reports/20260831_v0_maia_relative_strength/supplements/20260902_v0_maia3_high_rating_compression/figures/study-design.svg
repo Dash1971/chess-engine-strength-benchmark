@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="515" viewBox="0 0 960 515" role="img" aria-labelledby="chart-title chart-desc">
+  <title id="chart-title">Sparse shared-anchor study design</title>
+  <desc id="chart-desc">The study directly compared 1600 with 2100 and 1600 with 2300 in 200 games each. It did not directly compare 2100 with 2300, so it cannot order those two higher profiles.</desc>
+  <rect width="960" height="515" fill="#ffffff"/>
+  <style>
+      .title { font: 700 30px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .subtitle { font: 400 19px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .label { font: 600 20px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .value { font: 700 21px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #172033; }
+      .small { font: 400 17px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .tiny { font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #5b6475; }
+      .inverse { font: 700 23px system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #ffffff; }
+    </style>
+  <text x="40.0" y="48.0" class="title" text-anchor="start">What the follow-up directly tested</text>
+  <text x="40.0" y="82.0" class="subtitle" text-anchor="start">Two 200-game edges share the 1600 anchor; the higher labels never played each other.</text>
+  <line x1="262.0" y1="250.0" x2="668.0" y2="170.0" stroke="#2563eb" stroke-width="6.0"/>
+  <line x1="262.0" y1="280.0" x2="668.0" y2="360.0" stroke="#2563eb" stroke-width="6.0"/>
+  <rect x="365.0" y="146.0" width="240.0" height="58.0" rx="10.0" fill="#ffffff"/>
+  <text x="485.0" y="172.0" class="small" text-anchor="middle">200 games</text>
+  <text x="485.0" y="195.0" class="tiny" text-anchor="middle">+260.5 realized Elo</text>
+  <circle cx="740.0" cy="155.0" r="72.0" fill="#eef2f7" stroke="#2563eb" stroke-width="5.0"/>
+  <text x="740.0" y="148.0" class="label" text-anchor="middle">Label 2100</text>
+  <text x="740.0" y="179.0" class="small" text-anchor="middle">higher profile</text>
+  <rect x="365.0" y="320.0" width="240.0" height="58.0" rx="10.0" fill="#ffffff"/>
+  <text x="485.0" y="346.0" class="small" text-anchor="middle">200 games</text>
+  <text x="485.0" y="369.0" class="tiny" text-anchor="middle">+246.3 realized Elo</text>
+  <circle cx="740.0" cy="375.0" r="72.0" fill="#eef2f7" stroke="#2563eb" stroke-width="5.0"/>
+  <text x="740.0" y="368.0" class="label" text-anchor="middle">Label 2300</text>
+  <text x="740.0" y="399.0" class="small" text-anchor="middle">higher profile</text>
+  <circle cx="190.0" cy="265.0" r="78.0" fill="#2563eb" stroke="#2563eb" stroke-width="5.0"/>
+  <text x="190.0" y="260.0" class="inverse" text-anchor="middle">Label 1600</text>
+  <text x="190.0" y="293.0" class="inverse" text-anchor="middle">shared anchor</text>
+  <line x1="740.0" y1="229.0" x2="740.0" y2="301.0" stroke="#b45309" stroke-width="4.0" stroke-dasharray="8 7"/>
+  <circle cx="740.0" cy="265.0" r="21.0" fill="#ffffff" stroke="#b45309" stroke-width="4.0"/>
+  <text x="740.0" y="273.0" class="value" text-anchor="middle">×</text>
+  <text x="925.0" y="260.0" class="label" text-anchor="end">No direct</text>
+  <text x="925.0" y="289.0" class="small" text-anchor="end">2100–2300 match</text>
+  <text x="40.0" y="485.0" class="label" text-anchor="start">Therefore the appendix cannot establish whether 2300 is stronger than 2100.</text>
+</svg>
