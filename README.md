@@ -204,6 +204,10 @@ is the main preregistered report: 3,000 paired-opening games across ratings
 1100–1900, family strength curves, uncertainty analysis, all PGNs, and
 reproducible derived tables.
 
+Its [Maia 3 high-rating compression supplemental appendix](reports/20260831_v0_maia_relative_strength/supplements/20260902_v0_maia3_high_rating_compression/README.md)
+adds 400 preregistered games testing 1600 against 2100 and 2300, with complete
+PGNs, paired-opening uncertainty analysis, and reproducible integrity checks.
+
 See the [expanded Maia 1600 engine-profile benchmark](reports/20260829_v1_maia_1600_benchmark/README.md)
 for a worked example using this tool: five profiles, ten matchups, 1,000 games,
 methodology, statistical analysis, performance observations, and the complete

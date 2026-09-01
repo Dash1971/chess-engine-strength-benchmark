@@ -5,6 +5,12 @@ separation Maia 2 and Maia 3 preserve across nominal settings from 1100 to 1900.
 It contains 3,000 games: 15 matchups, 200 games per matchup, and 100 fixed
 opening prefixes played once with each engine-color assignment.
 
+**Supplemental follow-up:** the
+[Maia 3 high-rating compression appendix](supplements/20260902_v0_maia3_high_rating_compression/README.md)
+adds 400 preregistered games at labels 1600, 2100, and 2300. It finds clear
+separation from 1600 but substantial compression of the nominal high-rating
+gaps; its sparse design does not directly compare 2100 with 2300.
+
 ## Plain-English conclusions
 
 ### 1. Maia 3 is much less compressed than Maia 2
